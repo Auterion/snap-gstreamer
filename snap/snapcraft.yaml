@@ -128,3 +128,5 @@ build-packages: # Dependencies
    - libxcb1-dev
    - libx11-xcb-dev
    - libxcb-glx0-dev
+   - bison
+   - flex
