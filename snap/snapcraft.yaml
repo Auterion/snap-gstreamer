@@ -12,9 +12,15 @@ parts:
   gstreamer:
       plugin: autotools
       source: git://anongit.freedesktop.org/git/gstreamer/gstreamer
-      configflags:
-        - "--prefix=/apps/gstreamer/git"
-        - "--enable-gtk-doc"
+      build: |
+        ./autogen.sh
+        ./configure --prefix=/apps/gstreamer/git --enable-gtk-doc
+        make
+      install: |
+        make install
+# configflags:
+#   - "--prefix=/apps/gstreamer/git"
+#   - "--enable-gtk-doc"
       build-packages:
       - on amd64: []
       - on armhf: []
@@ -22,22 +28,53 @@ parts:
   gst-plugins-base:
       plugin: autotools
       source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-base
+      build: |
+        ./autogen.sh --prefix=/apps/gst-plugins-base/git --enable-gtk-doc --enable-iso-codes --enable-orc
+        make
+      install: |
+        make install
 
   gst-plugins-good:
-    plugin: autotools
-    source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
+      plugin: autotools
+      source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
+      build: |
+        ./autogen.sh --prefix=/apps/gst-plugins-good/git --enable-gtk-doc --enable-orc
+        make
+      install: |
+        make install
 
   gst-plugins-ugly:
-    plugin: autotools
-    source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-ugly
+      plugin: autotools
+      source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-ugly
+      plugin: autotools
+      source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
+      build: |
+        ./autogen.sh --prefix=/apps/gst-plugins-ugly/git --enable-gtk-doc --enable-orc
+        make
+      install: |
+        make install
 
   gst-plugins-bad:
-    plugin: autotools
-    source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-bad
+      plugin: autotools
+      source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-bad
+      plugin: autotools
+      source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
+      build: |
+        ./autogen.sh --prefix=/apps/gst-plugins-bad/git --enable-gtk-doc --enable-orc --with-cuda-prefix=/usr/local/cuda
+        make
+      install: |
+        make install
 
   gst-libav:
-    plugin: autotools
-    source: git://anongit.freedesktop.org/git/gstreamer/gst-libav
+      plugin: autotools
+      source: git://anongit.freedesktop.org/git/gstreamer/gst-libav
+      plugin: autotools
+      source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
+      build: |
+        ./autogen.sh --prefix=/apps/gst-libav/git --enable-gtk-doc --enable-orc 
+        make
+      install: |
+        make install
 
 build-packages: # Dependencies
    - autoconf
