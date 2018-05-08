@@ -5,125 +5,71 @@ description: |
   GStreamer is a library for constructing graphs of media-handling components. The applications it supports range from simple Ogg/Vorbis playback, audio/video streaming to complex audio (mixing) and video (non-linear editing) processing.(https://gstreamer.freedesktop.org/)
 
 
-confinement: devmode # use 'strict' once you have the right plugs and slots
-grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
+grade: stable # must be 'stable' to release into candidate/stable channels
 
 parts:
-  gstreamer:
-      plugin: autotools
-      source: git://anongit.freedesktop.org/git/gstreamer/gstreamer
-      build: |
-        ./autogen.sh
-        ./configure --prefix=/apps/gstreamer/git --enable-gtk-doc
-        make
-      install: |
-        make install
-      build-packages:
-      - on amd64: []
-      - on armhf: []
+ gstreamer:
+    plugin: autotools
+    source: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.12.5.tar.xz
+    source-checksum: sha256/9f750d845a326880b24c1ccc913d07df8f38cd9e63009714795ae175b6c29c6a
+    configflags:
+      - --prefix=/usr
+      - --disable-benchmarks
+      - --disable-debug
+      - --disable-examples
+      - --disable-gst-debug
+      - --disable-gst-tracer-hooks
+      - --disable-rpath
+      - --disable-tests
+      - --disable-tools
+    build-packages:
+      - bison
+      - flex
+      - gettext
+      - liborc-0.4-dev
+      - libpulse-dev
+      - libxv-dev
+    stage-packages:
+      - libpulse0
+      - libxv1
+    install: |
+      find $SNAPCRAFT_PART_INSTALL/usr/lib/pkgconfig -name "*gstreamer*.pc" -exec \
+        sed -i "s|/usr/include|$SNAPCRAFT_STAGE/usr/include|g;s|/usr/lib|$SNAPCRAFT_STAGE/usr/lib|g" '{}' \;
+    prime:
+      - lib/libjson-c*
+      - usr/lib/**/libXv.so*
+      - usr/lib/gstreamer-1.0
+      - -usr/lib/gstreamer-1.0/include
+      - usr/lib/libgst*
+      - usr/libexec/gstreamer-1.0/gst-plugin-scanner
+      - usr/share/locale/*
+    build-attributes: [no-system-libraries]
 
-  # gst-plugins-base:
-  #     plugin: autotools
-  #     source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-base
-  #     build: |
-  #       ./autogen.sh --prefix=/apps/gst-plugins-base/git --enable-gtk-doc --enable-iso-codes --enable-orc
-  #       make
-  #     install: |
-  #       make install
 
-  # gst-plugins-good:
-  #     plugin: autotools
-  #     source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
-  #     build: |
-  #       ./autogen.sh --prefix=/apps/gst-plugins-good/git --enable-gtk-doc --enable-orc
-  #       make
-  #     install: |
-  #       make install
-
-  # gst-plugins-ugly:
-  #     plugin: autotools
-  #     source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-ugly
-  #     plugin: autotools
-  #     source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
-  #     build: |
-  #       ./autogen.sh --prefix=/apps/gst-plugins-ugly/git --enable-gtk-doc --enable-orc
-  #       make
-  #     install: |
-  #       make install
-
-  # gst-plugins-bad:
-  #     plugin: autotools
-  #     source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-bad
-  #     plugin: autotools
-  #     source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
-  #     build: |
-  #       ./autogen.sh --prefix=/apps/gst-plugins-bad/git --enable-gtk-doc --enable-orc --with-cuda-prefix=/usr/local/cuda
-  #       make
-  #     install: |
-  #       make install
-
-  # gst-libav:
-  #     plugin: autotools
-  #     source: git://anongit.freedesktop.org/git/gstreamer/gst-libav
-  #     plugin: autotools
-  #     source: git://anongit.freedesktop.org/git/gstreamer/gst-plugins-good
-  #     build: |
-  #       ./autogen.sh --prefix=/apps/gst-libav/git --enable-gtk-doc --enable-orc 
-  #       make
-  #     install: |
-  #       make install
-
-build-packages: # Dependencies
-   - autoconf
-   - automake
-   - autogen
-   - libtool-bin
-   - build-essential
-   - gtk-doc-tools
-   - liborc-0.4-0
-   - liborc-0.4-dev
-   - libvorbis-dev
-   - libcdparanoia-dev
-   - libcdparanoia0
-   - cdparanoia
-   - libvisual-0.4-0
-   - libvisual-0.4-dev
-   - libvisual-0.4-plugins
-   - libvisual-projectm
-   - vorbis-tools
-   - vorbisgain
-   - libopus-dev
-   - libopus-doc
-   - libopus0
-   - libopusfile-dev
-   - libopusfile0
-   - libtheora-bin
-   - libtheora-dev
-   - libtheora-doc
-   - libvpx-dev
-   - libvpx-doc
-   - libvpx3
-   - libqt5gstreamer-1.0-0
-   - libgstreamer0.10-dev
-   - libgstreamer-plugins-base0.10-dev
-   - libflac++-dev
-   - libavc1394-dev
-   - libraw1394-dev
-   - libraw1394-doc
-   - libraw1394-tools
-   - libtag1-dev
-   - libtagc0-dev
-   - libwavpack-dev
-   - wavpack
-   - libfontconfig1-dev
-   - libfreetype6-dev
-   - libx11-dev
-   - libxext-dev
-   - libxfixes-dev
-   - libxi-dev
-   - libxrender-dev
-   - libxcb1-dev
-   - libx11-xcb-dev
-   - libxcb-glx0-dev
-   - bison
-   - flex
+ gst-plugins-base:
+    after:
+      - gstreamer
+    plugin: autotools
+    source: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.12.5.tar.xz
+    source-checksum: sha256/8fd9f25b65f3286f43530868b501a4e7cdc3f1568be78c75da716cd2559b712e
+    configflags:
+      - --prefix=/usr
+    build-packages:
+      - gettext
+      - libfribidi-dev
+      - libpulse-dev
+    stage-packages:
+      - libfribidi0
+      - libpulse0
+    install: |
+      find $SNAPCRAFT_PART_INSTALL/usr/lib/pkgconfig -name "*gstreamer*.pc" -exec \
+        sed -i "s|/usr/include|$SNAPCRAFT_STAGE/usr/include|g;s|/usr/lib|$SNAPCRAFT_STAGE/usr/lib|g" '{}' \;
+    prime:
+      - lib/libjson-c*
+      - usr/lib/**/libfribidi.so*
+      - usr/lib/gstreamer-1.0
+      - -usr/lib/gstreamer-1.0/include
+      - usr/lib/libgst*
+      - usr/share/locale/*
+    build-attributes: [no-system-libraries]
