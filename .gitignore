@@ -4,3 +4,4 @@ parts/
 prime/
 stage/
 *.snap
+snap/snap/.snapcraft/
