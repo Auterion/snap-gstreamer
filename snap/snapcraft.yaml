@@ -71,28 +71,26 @@ parts:
       - usr/lib/gstreamer-1.0
       - usr/lib/libgst*
       - usr/share/locale/*
-    # stage-packages:
-    #   - libpulse0
     build-attributes: [no-system-libraries]
 
 apps:
   gst-launch:
-    command: /usr/bin/gst-launch-1.0
+    command: usr/bin/gst-launch-1.0
 
   gst-inspect:
-    command: /usr/bin/gst-inspect-1.0
-
-  gst-stats:
-    command: /usr/bin/gst-stats-1.0
+    command: usr/bin/gst-inspect-1.0
 
   gst-typefind:
-    command: /usr/bin/gst-typefind-1.0
+    command: usr/bin/gst-typefind-1.0
 
-  uvch264src:
-    command: gst-launch-1.0 uvch264src initial-bitrate=1000000 average-bitrate=1000000 iframe-period=1000 device=/dev/video0 name=src auto-start=true src.vidsrc ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5600
+  gst-plugin-scanner:
+    command: usr/libexec/gstreamer-1.0/gst-plugin-scanner
 
-  v4l2src:
-    command: gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5000
+  # uvch264src:
+  #   command: gst-launch-1.0 uvch264src initial-bitrate=1000000 average-bitrate=1000000 iframe-period=1000 device=/dev/video0 name=src auto-start=true src.vidsrc ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5600
 
-  test:
-    command: gst-launch-1.0 videotestsrc pattern=ball ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
+  # v4l2src:
+  #   command: gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5000
+
+  # test:
+  #   command: gst-launch-1.0 videotestsrc pattern=ball ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
