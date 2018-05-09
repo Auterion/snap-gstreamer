@@ -79,6 +79,15 @@ apps:
   gst-launch:
     command: /usr/bin/gst-launch-1.0
 
+  gst-inspect:
+    command: /usr/bin/gst-inspect-1.0
+
+  gst-stats:
+    command: /usr/bin/gst-stats-1.0
+
+  gst-typefind:
+    command: /usr/bin/gst-typefind-1.0
+
   uvch264src:
     command: gst-launch-1.0 uvch264src initial-bitrate=1000000 average-bitrate=1000000 iframe-period=1000 device=/dev/video0 name=src auto-start=true src.vidsrc ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5600
 
