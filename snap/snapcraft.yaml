@@ -20,14 +20,17 @@ parts:
       - flex
       - gettext
       - liborc-0.4-dev
-      - libpulse-dev
       - libxv-dev
+    stage:
+      - usr
     prime:
-      - usr/bin/gst*
-      - usr/lib/gstreamer-1.0/libgst*
-      - usr/lib/libgst*
-      - usr/libexec/gstreamer-1.0/gst-plugin-scanner
-      - usr/share/locale/*
+      - usr
+      # - usr/bin/gst*
+      # - usr/lib/gstreamer-1.0/libgst*
+      # - usr/lib/libgst*
+      # - usr/libexec/gstreamer-1.0/gst-plugin-scanner
+      # - usr/share/locale/*
+
     build-attributes: [no-system-libraries]
 
 
@@ -42,13 +45,18 @@ parts:
     build-packages:
       - gettext
       - libfribidi-dev
-      - libpulse-dev
+      - liborc-0.4-dev
+    stage:
+      - usr
     prime:
-      - lib/libjson-c*
-      - usr/lib/**/libfribidi.so*
-      - usr/lib/gstreamer-1.0
-      - usr/lib/libgst*
-      - usr/share/locale/*
+      - usr
+    # prime:
+    #   - usr/bin/gst*
+    #   - lib/libjson-c*
+    #   - usr/lib/**/libfribidi.so*
+    #   - usr/lib/gstreamer-1.0
+    #   - usr/lib/libgst*
+    #   - usr/share/locale/*
     build-attributes: [no-system-libraries]
 
  gst-plugins-good:
@@ -65,16 +73,27 @@ parts:
       - flex
       - gettext
       - liborc-0.4-dev
-      - libpulse-dev
+      # - libpulse-dev
+    stage:
+      - usr
     prime:
-      - lib/libjson-c*
-      - usr/lib/gstreamer-1.0
-      - usr/lib/libgst*
-      - usr/share/locale/*
+      - usr
+    # prime:
+    #   - usr/bin/gst*
+    #   - lib/libjson-c*
+    #   - usr/lib/gstreamer-1.0
+    #   - usr/lib/libgst*
+    #   - usr/share/locale/*
     build-attributes: [no-system-libraries]
 
 apps:
   gst-launch:
+    environment:
+      GST_PLUGIN_PATH: usr/lib/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: usr/lib/gstreamer-1.0
+      GST_PLUGIN_SCANNER: usr/libexec/gstreamer-1.0/gst-plugin-scanner
+      # LD_LIBRARY_PATH: usr/lib
+      PATH: $SNAP/usr/local/bin:$PATH
     command: usr/bin/gst-launch-1.0
 
   gst-inspect:
@@ -83,9 +102,18 @@ apps:
   gst-typefind:
     command: usr/bin/gst-typefind-1.0
 
-  gst-plugin-scanner:
-    command: usr/libexec/gstreamer-1.0/gst-plugin-scanner
+  gst-discoverer:
+    command: usr/bin/gst-discoverer-1.0
 
+  gst-play:
+    command: usr/bin/gst-play-1.0
+
+  echopath:
+    environment:
+      GST_PLUGIN_PATH: usr/lib/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: usr/lib/gstreamer-1.0
+      GST_PLUGIN_SCANNER: usr/libexec/gstreamer-1.0/gst-plugin-scanner
+    command: echo $GST_PLUGIN_PATH
   # uvch264src:
   #   command: gst-launch-1.0 uvch264src initial-bitrate=1000000 average-bitrate=1000000 iframe-period=1000 device=/dev/video0 name=src auto-start=true src.vidsrc ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5600
 
