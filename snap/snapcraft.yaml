@@ -15,14 +15,6 @@ parts:
     source-checksum: sha256/9f750d845a326880b24c1ccc913d07df8f38cd9e63009714795ae175b6c29c6a
     configflags:
       - --prefix=/usr
-      # - --disable-benchmarks
-      # - --disable-debug
-      # - --disable-examples
-      # - --disable-gst-debug
-      # - --disable-gst-tracer-hooks
-      # - --disable-rpath
-      # - --disable-tests
-      # - --disable-tools
     build-packages:
       - bison
       - flex
@@ -30,9 +22,12 @@ parts:
       - liborc-0.4-dev
       - libpulse-dev
       - libxv-dev
-    stage-packages:
-      - libpulse0
-      - libxv1
+    prime:
+      - usr/bin/gst*
+      - usr/lib/gstreamer-1.0/libgst*
+      - usr/lib/libgst*
+      - usr/libexec/gstreamer-1.0/gst-plugin-scanner
+      - usr/share/locale/*
     build-attributes: [no-system-libraries]
 
 
@@ -48,86 +43,47 @@ parts:
       - gettext
       - libfribidi-dev
       - libpulse-dev
-    stage-packages:
-      - libfribidi0
-      - libpulse0
+    prime:
+      - lib/libjson-c*
+      - usr/lib/**/libfribidi.so*
+      - usr/lib/gstreamer-1.0
+      - usr/lib/libgst*
+      - usr/share/locale/*
     build-attributes: [no-system-libraries]
 
  gst-plugins-good:
     after:
-    - gstreamer
-    - gst-plugins-base
+      - gstreamer
+      - gst-plugins-base
     plugin: autotools
     source: http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.5.2.tar.xz
     source-checksum: sha256/2c84b23bbe06e40c99dece5ea4520b337a15aa4e7eba1290e6d14834e2005555
     configflags:
-    - --prefix=/usr
-    # - --disable-aalib
-    # - --disable-aalibtest
-    # - --disable-alpha
-    # - --disable-apetag
-    # - --disable-audiofx
-    # - --disable-cutter
-    # - --disable-debug
-    # - --disable-debugutils
-    # - --disable-directsound
-    # - --disable-dtmf
-    # - --disable-dv1394
-    # - --disable-effectv
-    # - --disable-equalizer
-    # - --disable-examples
-    # - --disable-flac
-    # - --disable-flv
-    # - --disable-flx
-    # - --disable-goom
-    # - --disable-goom2k1
-    # - --disable-icydemux
-    # - --disable-id3demux
-    # - --disable-imagefreeze
-    # - --disable-interleave
-    # - --disable-jack
-    # - --disable-jpeg
-    # - --disable-law
-    # - --disable-level
-    # - --disable-libcaca
-    # - --disable-libdv
-    # - --disable-libpng
-    # - --disable-monoscope
-    # - --disable-oss
-    # - --disable-oss4
-    # - --disable-osx_audio
-    # - --disable-osx_video
-    # - --disable-replaygain
-    # - --disable-rpath
-    # - --disable-rtp
-    # - --disable-rtpmanager
-    # - --disable-rtsp
-    # - --disable-shapewipe
-    # - --disable-shout2
-    # - --disable-smpte
-    # - --disable-spectrum
-    # - --disable-speex
-    # - --disable-sunaudio
-    # - --disable-taglib
-    # - --disable-udp
-    # - --disable-videobox
-    # - --disable-vpx
-    # - --disable-waveform
-    # - --disable-wavenc
-    # - --disable-wavpack
-    # - --disable-wavparse
-    # - --disable-y4m
+     - --prefix=/usr
     build-packages:
-    - bison
-    - flex
-    - gettext
-    - liborc-0.4-dev
-    - libpulse-dev
-    stage-packages:
-    - libpulse0
+      - bison
+      - flex
+      - gettext
+      - liborc-0.4-dev
+      - libpulse-dev
+    prime:
+      - lib/libjson-c*
+      - usr/lib/gstreamer-1.0
+      - usr/lib/libgst*
+      - usr/share/locale/*
+    # stage-packages:
+    #   - libpulse0
     build-attributes: [no-system-libraries]
+
 apps:
   gst-launch:
-    command: gst-launch-1.0
-  # v4l2src:
-  #   command: gst-launch-1.0 v4l2src 
+    command: /usr/bin/gst-launch-1.0
+
+  uvch264src:
+    command: gst-launch-1.0 uvch264src initial-bitrate=1000000 average-bitrate=1000000 iframe-period=1000 device=/dev/video0 name=src auto-start=true src.vidsrc ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5600
+
+  v4l2src:
+    command: gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5000
+
+  test:
+    command: gst-launch-1.0 videotestsrc pattern=ball ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
