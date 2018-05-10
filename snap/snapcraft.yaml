@@ -22,6 +22,8 @@ parts:
       - gettext
       - liborc-0.4-dev
       - libxv-dev
+      - libx32z1-dev
+
     stage-packages:
       - liborc-0.4-dev
       - libasound2-dev
@@ -30,6 +32,7 @@ parts:
       - libvorbis-dev
       - libogg-dev
       - libpulse-dev
+      - libpulse0
       - libwavpack-dev
       - libvisual-0.4-dev
       - libtag1-dev
@@ -39,6 +42,8 @@ parts:
       - libpangocairo-1.0-0
       - libtheora-dev
       - libxv-dev
+      - libxdamage-dev
+      - libcdparanoia-dev
 
     prime:
       - usr
@@ -85,19 +90,34 @@ apps:
       GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
       GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
       GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
-      # LD_LIBRARY_PATH: usr/lib
     command: usr/bin/gst-launch-1.0
 
   gst-inspect:
+    environment:
+      GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
     command: usr/bin/gst-inspect-1.0
 
   gst-typefind:
+    environment:
+      GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
     command: usr/bin/gst-typefind-1.0
 
   gst-discoverer:
+    environment:
+      GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
     command: usr/bin/gst-discoverer-1.0
 
   gst-play:
+    environment:
+      GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
     command: usr/bin/gst-play-1.0
 
   echopath:
