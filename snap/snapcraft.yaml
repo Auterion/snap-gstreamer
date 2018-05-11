@@ -24,7 +24,7 @@ parts:
       - libtag1-dev
 
     stage-packages:
-      - liborc-0.4-dev
+      - liborc-0.4-dev ## For gst-plugins-base
       - libasound2-dev
       - libjpeg-dev
       - libvpx-dev
@@ -43,6 +43,19 @@ parts:
       - libxv-dev
       - libxdamage-dev
       - libcdparanoia-dev
+      - libc6-dev ## For gst-plugins-ugly
+      - libcurl3
+      - libdrm2
+      - libx11-xcb1
+      - libqt5quick5
+      - libwebp5
+      - libopenexr22
+      - libopencv-calib3d2.4v5
+      - libopencv-highgui2.4v5
+      - libqt5x11extras5
+      - libdc1394-22
+      - libhybris
+
 
     prime:
       - usr/bin
@@ -116,7 +129,7 @@ parts:
       - gst-plugins-bad
     plugin: autotools
     source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.12.5.tar.xz
-    source-checksum: sha256/4b1e1e2d260af701b59a1bc393ca497e7954228a6500a8c113fd1c7ca5e8709e
+    source-checksum: sha256/67724b0188439b0abd2191ce4cd40ed88e4278cbb784898e16f3ec94760ef96e
     configflags:
      - --prefix=/usr
     build-packages:
