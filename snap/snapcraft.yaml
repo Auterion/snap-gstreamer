@@ -126,11 +126,24 @@ apps:
       GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
       GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
     command: echo $GST_PLUGIN_PATH
+
   # uvch264src:
-  #   command: gst-launch-1.0 uvch264src initial-bitrate=1000000 average-bitrate=1000000 iframe-period=1000 device=/dev/video0 name=src auto-start=true src.vidsrc ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5600
+  #   environment:
+  #     GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
+  #     GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
+  #     GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
+  #   command: usr/bin/gst-launch-1.0 uvch264src 
 
-  # v4l2src:
-  #   command: gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-h264,width=1920,height=1080,framerate=24/1 ! h264parse ! rtph264pay ! udpsink host=xxx.xxx.xxx.xxx port=5000
+  v4l2src:
+    environment:
+      GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
+    command: usr/bin/gst-launch-1.0 v4l2src 
 
-  # test:
-  #   command: gst-launch-1.0 videotestsrc pattern=ball ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
+  videotestsrc:
+    environment:
+      GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
+    command: usr/bin/gst-launch-1.0 videotestsrc
