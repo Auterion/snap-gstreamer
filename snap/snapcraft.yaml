@@ -44,6 +44,8 @@ parts:
       - libxdamage-dev
       - libcdparanoia-dev
       - libc6-dev ## For gst-plugins-ugly
+      - libusb-1.0-0-dev
+      - libwayland-egl1-mesa
       - libcurl3
       - libdrm2
       - libx11-xcb1
@@ -52,6 +54,8 @@ parts:
       - libopenexr22
       - libopencv-calib3d2.4v5
       - libopencv-highgui2.4v5
+      - libopencv-objdetect2.4v5
+      - libopencv-video2.4v5
       - libqt5x11extras5
       - libdc1394-22
       - libhybris
