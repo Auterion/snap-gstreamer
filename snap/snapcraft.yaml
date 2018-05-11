@@ -22,7 +22,6 @@ parts:
       - gettext
       - liborc-0.4-dev
       - libxv-dev
-      - libx32z1-dev
 
     stage-packages:
       - liborc-0.4-dev
