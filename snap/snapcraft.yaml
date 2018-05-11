@@ -108,6 +108,27 @@ parts:
       - usr
     build-attributes: [no-system-libraries]
 
+ gst-plugins-ugly:
+    after:
+      - gstreamer
+      - gst-plugins-base
+      - gst-plugins-good
+      - gst-plugins-bad
+    plugin: autotools
+    source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.12.5.tar.xz
+    source-checksum: sha256/4b1e1e2d260af701b59a1bc393ca497e7954228a6500a8c113fd1c7ca5e8709e
+    configflags:
+     - --prefix=/usr
+    build-packages:
+      - bison
+      - flex
+      - gettext
+      - liborc-0.4-dev
+    prime:
+      - usr
+    build-attributes: [no-system-libraries]
+
+
 
 apps:
   gst-launch:
