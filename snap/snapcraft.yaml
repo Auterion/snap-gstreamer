@@ -89,6 +89,26 @@ parts:
       - usr
     build-attributes: [no-system-libraries]
 
+ gst-plugins-bad:
+    after:
+      - gstreamer
+      - gst-plugins-base
+      - gst-plugins-good
+    plugin: autotools
+    source: http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.5.tar.xz
+    source-checksum: sha256/40f82fa775ce8ecfc930fd13073e8643b90cba9b6f8dd2462ec45a93120c7d81
+    configflags:
+     - --prefix=/usr
+    build-packages:
+      - bison
+      - flex
+      - gettext
+      - liborc-0.4-dev
+    prime:
+      - usr
+    build-attributes: [no-system-libraries]
+
+
 apps:
   gst-launch:
     environment:
