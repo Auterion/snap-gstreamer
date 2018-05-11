@@ -11,11 +11,10 @@ grade: stable # must be 'stable' to release into candidate/stable channels
 parts:
  gstreamer:
     plugin: autotools
-    source: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.5.2.tar.xz
+    source: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.12.5.tar.xz
     source-checksum: sha256/9f750d845a326880b24c1ccc913d07df8f38cd9e63009714795ae175b6c29c6a
     configflags:
       - --prefix=/usr
-      - --with-install-plugins-helper=/path/to/installer
     build-packages:
       - bison
       - flex
@@ -52,7 +51,7 @@ parts:
     after:
       - gstreamer
     plugin: autotools
-    source: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.5.2.tar.xz
+    source: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.12.5.tar.xz
     source-checksum: sha256/8fd9f25b65f3286f43530868b501a4e7cdc3f1568be78c75da716cd2559b712e
     configflags:
       - --prefix=/usr
@@ -70,7 +69,7 @@ parts:
       - gstreamer
       - gst-plugins-base
     plugin: autotools
-    source: http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.5.2.tar.xz
+    source: http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.12.5.tar.xz
     source-checksum: sha256/2c84b23bbe06e40c99dece5ea4520b337a15aa4e7eba1290e6d14834e2005555
     configflags:
      - --prefix=/usr
