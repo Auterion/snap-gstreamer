@@ -55,7 +55,6 @@ parts:
     source-checksum: sha256/8fd9f25b65f3286f43530868b501a4e7cdc3f1568be78c75da716cd2559b712e
     configflags:
       - --prefix=/usr
-      - --disable-werror
     build-packages:
       - bison
       - flex
