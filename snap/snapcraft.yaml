@@ -257,3 +257,10 @@ apps:
       GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
       GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
     command: usr/bin/gst-launch-1.0 videotestsrc
+
+  videotestsrc-ball:
+    environment:
+      GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
+      GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
+    command: usr/bin/gst-launch-1.0 videotestsrc pattern=ball ! video/x-raw,width=640,height=480 ! videoconvert ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600 -v
