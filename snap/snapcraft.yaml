@@ -20,9 +20,10 @@ parts:
       - flex
       - gettext
       - liborc-0.4-dev
+      - libpulse-dev
       - libxv-dev
       - libtag1-dev
-
+      - libwavpack-dev
     stage-packages:
       - liborc-0.4-dev ## For gst-plugins-base
       - libasound2-dev
@@ -34,7 +35,7 @@ parts:
       - libpulse0
       - libwavpack-dev
       - libvisual-0.4-dev
-      - libtag1-dev
+      - libtag1v5
       - libopus-dev
       - libcairo-gobject2
       - libgdk-pixbuf2.0-dev
@@ -59,8 +60,7 @@ parts:
       - libqt5x11extras5
       - libdc1394-22
       - libhybris
-
-
+      - libx264-dev
     prime:
       - usr/bin
       - usr/include
@@ -80,10 +80,43 @@ parts:
     configflags:
       - --prefix=/usr
     build-packages:
+      - gettext
+      - liborc-0.4-dev
+      - libfribidi-dev
+      - libpulse-dev
+    prime:
+      - usr
+    build-attributes: [no-system-libraries]
+
+ gst-plugins-libav:
+    after:
+      - gstreamer
+      - gst-plugins-base
+    plugin: autotools
+    source: https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.12.5.tar.xz
+    source-checksum: sha256/812b865f3936d0c5b30f766a126783c99fe00c166c1a7677d50790201c573878
+    configflags:
+      - --prefix=/usr
+      - --enable-gpl
+      - --enable-orc
+    build-packages:
       - bison
       - flex
       - gettext
+      - libgnutls28-dev
       - liborc-0.4-dev
+      - libpulse-dev
+      - libva-dev
+      - libwayland-dev
+      - libxrandr-dev
+      - yasm
+      - zlib1g-dev
+    stage-packages:
+      - libpulse0
+      - libva-wayland1
+      - libva-x11-1
+      - libva1
+      - zlib1g
     prime:
       - usr
     build-attributes: [no-system-libraries]
@@ -92,6 +125,7 @@ parts:
     after:
       - gstreamer
       - gst-plugins-base
+      - gst-plugins-libav
     plugin: autotools
     source: http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.12.5.tar.xz
     source-checksum: sha256/2c84b23bbe06e40c99dece5ea4520b337a15aa4e7eba1290e6d14834e2005555
@@ -102,6 +136,9 @@ parts:
       - flex
       - gettext
       - liborc-0.4-dev
+      - libpulse-dev
+    stage-packages:
+      - libpulse0
     prime:
       - usr
     build-attributes: [no-system-libraries]
@@ -111,6 +148,7 @@ parts:
       - gstreamer
       - gst-plugins-base
       - gst-plugins-good
+      - gst-plugins-libav
     plugin: autotools
     source: http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.5.tar.xz
     source-checksum: sha256/40f82fa775ce8ecfc930fd13073e8643b90cba9b6f8dd2462ec45a93120c7d81
@@ -120,7 +158,15 @@ parts:
       - bison
       - flex
       - gettext
+      - libgl1-mesa-dev
+      - libgles2-mesa-dev
+      - libneon27-gnutls-dev
       - liborc-0.4-dev
+      - libpulse-dev
+      - nettle-dev
+    stage-packages:
+      - libneon27-gnutls
+      - libpulse0
     prime:
       - usr
     build-attributes: [no-system-libraries]
@@ -131,6 +177,7 @@ parts:
       - gst-plugins-base
       - gst-plugins-good
       - gst-plugins-bad
+      - gst-plugins-libav
     plugin: autotools
     source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.12.5.tar.xz
     source-checksum: sha256/67724b0188439b0abd2191ce4cd40ed88e4278cbb784898e16f3ec94760ef96e
