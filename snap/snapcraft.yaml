@@ -11,8 +11,10 @@ grade: stable # must be 'stable' to release into candidate/stable channels
 parts:
  gstreamer:
     plugin: autotools
-    source: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.12.5.tar.xz
-    source-checksum: sha256/9f750d845a326880b24c1ccc913d07df8f38cd9e63009714795ae175b6c29c6a
+    source: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.8.3.tar.xz
+    source-checksum: sha256/66b37762d4fdcd63bce5a2bec57e055f92420e95037361609900278c0db7c53f
+    # source: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.12.5.tar.xz
+    # source-checksum: sha256/9f750d845a326880b24c1ccc913d07df8f38cd9e63009714795ae175b6c29c6a
     configflags:
       - --prefix=/usr
     build-packages:
@@ -24,6 +26,7 @@ parts:
       - libxv-dev
       - libtag1-dev
       - libwavpack-dev
+      - libusb-1.0-0-dev
     stage-packages:
       - liborc-0.4-dev ## For gst-plugins-base
       - libasound2-dev
@@ -31,7 +34,6 @@ parts:
       - libvpx-dev
       - libvorbis-dev
       - libogg-dev
-      - libpulse-dev
       - libpulse0
       - libwavpack-dev
       - libvisual-0.4-dev
@@ -45,7 +47,7 @@ parts:
       - libxdamage-dev
       - libcdparanoia-dev
       - libc6-dev ## For gst-plugins-ugly
-      - libusb-1.0-0-dev
+      - libusb-1.0-0
       - libwayland-egl1-mesa
       - libcurl3
       - libdrm2
@@ -61,11 +63,13 @@ parts:
       - libdc1394-22
       - libhybris
       - libx264-dev
+      - libvdpau-dev
     prime:
+      - lib
       - usr/bin
       - usr/include
       - usr/lib
-      - usr/libexec/gstreamer-1.0/gst-completion-helper
+      # - usr/libexec/gstreamer-1.0/gst-completion-helper
       - usr/libexec/gstreamer-1.0/gst-plugin-scanner
       - usr/sbin
       - usr/share
@@ -75,8 +79,10 @@ parts:
     after:
       - gstreamer
     plugin: autotools
-    source: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.12.5.tar.xz
-    source-checksum: sha256/8fd9f25b65f3286f43530868b501a4e7cdc3f1568be78c75da716cd2559b712e
+    source: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.8.3.tar.xz
+    source-checksum: sha256/114871d4d63606b4af424a8433cd923e4ff66896b244bb7ac97b9da47f71e79e
+    # source: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.12.5.tar.xz
+    # source-checksum: sha256/8fd9f25b65f3286f43530868b501a4e7cdc3f1568be78c75da716cd2559b712e
     configflags:
       - --prefix=/usr
     build-packages:
@@ -85,7 +91,11 @@ parts:
       - libfribidi-dev
       - libpulse-dev
     prime:
+      - lib
       - usr
+    stage-packages:
+      - libpulse0
+
     build-attributes: [no-system-libraries]
 
  gst-plugins-libav:
@@ -93,8 +103,10 @@ parts:
       - gstreamer
       - gst-plugins-base
     plugin: autotools
-    source: https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.12.5.tar.xz
-    source-checksum: sha256/812b865f3936d0c5b30f766a126783c99fe00c166c1a7677d50790201c573878
+    source: https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.8.3.tar.xz
+    source-checksum: sha256/9006a05990089f7155ee0e848042f6bb24e52ab1d0a59ff8d1b5d7e33001a495
+    # source: https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.12.5.tar.xz
+    # source-checksum: sha256/812b865f3936d0c5b30f766a126783c99fe00c166c1a7677d50790201c573878
     configflags:
       - --prefix=/usr
       - --enable-gpl
@@ -118,6 +130,7 @@ parts:
       - libva1
       - zlib1g
     prime:
+      - lib
       - usr
     build-attributes: [no-system-libraries]
 
@@ -127,8 +140,10 @@ parts:
       - gst-plugins-base
       - gst-plugins-libav
     plugin: autotools
-    source: http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.12.5.tar.xz
-    source-checksum: sha256/2c84b23bbe06e40c99dece5ea4520b337a15aa4e7eba1290e6d14834e2005555
+    source: http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.8.3.tar.xz
+    source-checksum: sha256/a1d6579ba203a7734927c24b90bf6590d846c5a5fcec01a48201018c8ad2827a
+    # source: http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.12.5.tar.xz
+    # source-checksum: sha256/2c84b23bbe06e40c99dece5ea4520b337a15aa4e7eba1290e6d14834e2005555
     configflags:
      - --prefix=/usr
     build-packages:
@@ -140,6 +155,7 @@ parts:
     stage-packages:
       - libpulse0
     prime:
+      - lib
       - usr
     build-attributes: [no-system-libraries]
 
@@ -150,8 +166,10 @@ parts:
       - gst-plugins-good
       - gst-plugins-libav
     plugin: autotools
-    source: http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.5.tar.xz
-    source-checksum: sha256/40f82fa775ce8ecfc930fd13073e8643b90cba9b6f8dd2462ec45a93120c7d81
+    source: http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.3.tar.xz
+    source-checksum: sha256/7899fcb18e6a1af2888b19c90213af018a57d741c6e72ec56b133bc73ec8509b
+    # source: http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.12.5.tar.xz
+    # source-checksum: sha256/40f82fa775ce8ecfc930fd13073e8643b90cba9b6f8dd2462ec45a93120c7d81
     configflags:
      - --prefix=/usr
     build-packages:
@@ -168,6 +186,7 @@ parts:
       - libneon27-gnutls
       - libpulse0
     prime:
+      - lib
       - usr
     build-attributes: [no-system-libraries]
 
@@ -179,8 +198,10 @@ parts:
       - gst-plugins-bad
       - gst-plugins-libav
     plugin: autotools
-    source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.12.5.tar.xz
-    source-checksum: sha256/67724b0188439b0abd2191ce4cd40ed88e4278cbb784898e16f3ec94760ef96e
+    source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.8.3.tar.xz
+    source-checksum: sha256/6fa2599fdd072d31fbaf50c34af406e2be944a010b1f4eab67a5fe32a0310693
+    # source: http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.12.5.tar.xz
+    # source-checksum: sha256/67724b0188439b0abd2191ce4cd40ed88e4278cbb784898e16f3ec94760ef96e
     configflags:
      - --prefix=/usr
     build-packages:
@@ -197,7 +218,7 @@ parts:
 apps:
   gst-launch:
     environment:
-      GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
+      # GST_PLUGIN_PATH: $SNAP/usr/lib/gstreamer-1.0
       GST_PLUGIN_SYSTEM_PATH: $SNAP/usr/lib/gstreamer-1.0
       GST_PLUGIN_SCANNER: $SNAP/usr/libexec/gstreamer-1.0/gst-plugin-scanner
     command: usr/bin/gst-launch-1.0
